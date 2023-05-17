@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "cdk-lab-scheduled-serverless-tasks"
+version = "0.1.0"
+description = ""
+authors = ["Violet Vivirand <purpleslovemail@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+aws-cdk-lib = "2.76.0"
+constructs = ">=10.0.0,<11.0.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "6.2.5"
+ipython = "^8.13.2"
+requests = "^2.30.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
