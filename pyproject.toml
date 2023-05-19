@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "cdk-lab-scheduled-serverless-tasks"
+name = "cdk-lab-serverless-task-scheduler"
 version = "0.1.0"
 description = ""
 authors = ["Violet Vivirand <purpleslovemail@gmail.com>"]

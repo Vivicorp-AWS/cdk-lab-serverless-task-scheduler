@@ -1,4 +1,4 @@
-# CDK Lab for an IM application Scheduler
+# CDK Lab - Serverless Task Scheduler
 
 I used to schedule some cron tasks and send the results to IM application, such as Slack, Discord ...etc.
 
