@@ -55,8 +55,6 @@ class SchedulerStack(Stack):
             ),
         )
 
-        scheduler.CfnSchedule.name
-
         CfnOutput(self, "SchedulerRoleName", value=role_scheduler.role_name,)
         CfnOutput(self, "SchedulerRoleARN", value=role_scheduler.role_arn,)
         CfnOutput(self, "SchedulerName", value=scheduler_lambda.name,)
