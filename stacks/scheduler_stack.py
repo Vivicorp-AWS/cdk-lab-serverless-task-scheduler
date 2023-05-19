@@ -41,7 +41,7 @@ class SchedulerStack(Stack):
         role_scheduler.attach_inline_policy(policy_invoke_lambda)
 
         # EventBridge Scheduler to invoke send-task-lambda-function
-        scheduler.CfnSchedule(
+        scheduler_lambda = scheduler.CfnSchedule(
             self, "task-scheduler",
             description="Scheduler to invoke send-task-lambda-function",
             flexible_time_window=scheduler.CfnSchedule.FlexibleTimeWindowProperty(mode="OFF",),
@@ -51,6 +51,13 @@ class SchedulerStack(Stack):
                 arn=lambdafn.function_arn,
                 role_arn=role_scheduler.role_arn,
                 input=json.dumps({}),
+                retry_policy=None,
             ),
-            retry_policy=None,
         )
+
+        scheduler.CfnSchedule.name
+
+        CfnOutput(self, "SchedulerRoleName", value=role_scheduler.role_name,)
+        CfnOutput(self, "SchedulerRoleARN", value=role_scheduler.role_arn,)
+        CfnOutput(self, "SchedulerName", value=scheduler_lambda.name,)
+        CfnOutput(self, "SchedulerARN", value=scheduler_lambda.attr_arn,)
