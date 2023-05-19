@@ -1,5 +1,15 @@
 # CDK Lab - Serverless Task Scheduler<!-- omit from toc -->
 
+I used to schedule some cron tasks and send the results to IM application, such as Slack, Discord ...etc.
+
+What I did before was implementing a gigantic, stable, famous workflow platform like [Apache Airflow](https://airflow.apache.org) and [Prefect](https://www.prefect.io). They are still good choices, but it's time for me to adopt a lighter, event-driven architecture.
+
+When talk about AWS, we can use Amazon EventBridge, AWS Lambda, Amazon SQS to build the same architecture to fulfill the same job:
+
+![](./diagram-services.jpg)
+
+Hope this will cost less money and effort. Let's get hands dirty 🛠️ and have the party started! 🎉
+
 - [Components](#components)
 - [Deployment](#deployment)
   - [Step 1: Configure AWS Credentials](#step-1-configure-aws-credentials)
@@ -13,17 +23,6 @@
 - [Some Development Tips \& Explainations](#some-development-tips--explainations)
   - [Role creation](#role-creation)
   - [JSON serialization in Lambda function](#json-serialization-in-lambda-function)
-
-
-I used to schedule some cron tasks and send the results to IM application, such as Slack, Discord ...etc.
-
-What I did before was implementing a gigantic, stable, famous workflow platform like [Apache Airflow](https://airflow.apache.org) and [Prefect](https://www.prefect.io). They are still good choices, but it's time for me to adopt a lighter, event-driven architecture.
-
-When talk about AWS, we can use Amazon EventBridge, AWS Lambda, Amazon SQS to build the same architecture to fulfill the same job:
-
-![](./diagram-services.jpg)
-
-Hope this will cost less money and effort. Let's get hands dirty 🛠️ and have the party started! 🎉
 
 ## Components
 
