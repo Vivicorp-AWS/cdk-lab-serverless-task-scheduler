@@ -24,6 +24,7 @@ Hope this will cost less money and effort. Let's get hands dirty 🛠️ and hav
 - [Some Development Tips \& Explainations](#some-development-tips--explainations)
   - [Role creation](#role-creation)
   - [JSON serialization in Lambda function](#json-serialization-in-lambda-function)
+- [Example References](#example-references)
 
 ## Components
 
@@ -171,3 +172,7 @@ Error occurs: module object can not be JSON serialized. Sometimes it's annoying 
 > "It can take almost any Python object and turn the object into JSON"
 
 We added into the Python Lambda Layer by default and already implemented into the Lambda function. Try and enjoy it! 🍻
+
+## Example References
+
+* [Chaining S3 to SNS to SQS to Lambda (AWS CDK Examples)](https://github.com/aws-samples/aws-cdk-examples/tree/master/python/s3-sns-sqs-lambda-chain)
