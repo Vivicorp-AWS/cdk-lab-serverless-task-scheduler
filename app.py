@@ -9,15 +9,17 @@ from stacks.scheduler_stack import SchedulerStack
 
 app = cdk.App()
 
+PREFIX = app.node.try_get_context("prefix")
+
 sqs_stack = SQSStack(
-    app, "cdklab-sqs",
+    app, f"{PREFIX}-sqs",
     description="CDK Lab SQS Stack",
 )
 
 queue = sqs_stack.queue
 
 lambda_stack = LambdaStack(
-    app, "cdklab-lambda",
+    app, f"{PREFIX}-lambda",
     queue=queue,
     description="CDK Lab Lambda Layer Stack",
     )
@@ -25,7 +27,7 @@ lambda_stack = LambdaStack(
 lambda_sendtask = lambda_stack.lambda_sendtask
 
 scheduler_stack = SchedulerStack(
-    app, "cdklab-scheduler",
+    app, f"{PREFIX}-scheduler",
     lambdafn=lambda_sendtask,
     description="CDK Lab Scheduler Stack",
 )
