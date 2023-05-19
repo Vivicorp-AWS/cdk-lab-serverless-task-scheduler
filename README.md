@@ -149,7 +149,7 @@ CDK will try to create roles and add necessary permission policies by evaluate t
 But there are exceptions in this project:
 
 1. If the action is written in Lambda function, CDK won't understand what permission does the function need (Refer to `stacks.lambda_stack.lambda_sendtask`)
-2. If we use L1 construct to create the resources, everything in the CloudFormation template should be created by ourselves (Refer to `stacks.scheduler_stack.scheduler_lambda`)
+2. If we use L1 construct to create the resources, everything in the CloudFormation template should be created by ourselves (Refer to [`stacks.scheduler_stack.scheduler_lambda`](stacks/scheduler_stack.py))
 
 If these situations exists, try to create the Roles and Policies manually first.
 
