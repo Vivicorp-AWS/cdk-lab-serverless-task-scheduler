@@ -17,6 +17,10 @@ class SchedulerStack(Stack):
         super().__init__(scope, id, **kwargs)
 
         # Service role for task-scheduler
+        # [NOTE] At this time (May 2023, version 2.79.1),
+        # CDK doesn't have a L2 EvventBridge Scheduler construct now
+        # (Ref: https://docs.aws.amazon.com/cdk/api/v2/python/aws_cdk.aws_scheduler/README.html)
+        # We have to create the Role and Policies by ourselves
         role_scheduler_lambda = iam.Role(self, "InvokeLambdaSchedulerServiceRole",
             description="Service role for task-scheduler",
             assumed_by=iam.ServicePrincipal("scheduler.amazonaws.com"),
