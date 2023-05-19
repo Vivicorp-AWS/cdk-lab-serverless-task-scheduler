@@ -14,10 +14,11 @@ Hope this will cost less money and effort. Let's get hands dirty 🛠️ and hav
 - [Deployment](#deployment)
   - [Step 1: Configure AWS Credentials](#step-1-configure-aws-credentials)
   - [Step 2: Set the stacks' prefix](#step-2-set-the-stacks-prefix)
-  - [Step 3: Create Task Definitions](#step-3-create-task-definitions)
-  - [Step 4: Install Python Lambda Layer (Python dependencies)](#step-4-install-python-lambda-layer-python-dependencies)
-  - [Step 5: Add Business Logics code](#step-5-add-business-logics-code)
-  - [Step 6: Change time related parameters of SQS Queue](#step-6-change-time-related-parameters-of-sqs-queue)
+  - [Step 3: Reset the scheduler](#step-3-reset-the-scheduler)
+  - [Step 4: Create Task Definitions](#step-4-create-task-definitions)
+  - [(Optional) Step 5: Install Python Lambda Layer (Python dependencies)](#optional-step-5-install-python-lambda-layer-python-dependencies)
+  - [Step 6: Add Business Logics code](#step-6-add-business-logics-code)
+  - [(Optional) Step 6: Change time related parameters of SQS Queue](#optional-step-6-change-time-related-parameters-of-sqs-queue)
   - [Step 7: Deploy with CDK toolkit (`cdk` command)](#step-7-deploy-with-cdk-toolkit-cdk-command)
   - [(Optional) Step 8: Clean all resources](#optional-step-8-clean-all-resources)
 - [Some Development Tips \& Explainations](#some-development-tips--explainations)
@@ -88,7 +89,19 @@ The deployed stack has a prefix, the default value is `cdklab`. Edit the value i
 }
 ```
 
-### Step 3: Create Task Definitions
+### Step 3: Reset the scheduler
+
+The default schedule is set at 23:59:59 on 2037-12-31, Refer to `stacks.scheduler_stack.scheduler_lambda`.
+
+Choose to set it as an rate-based, cron-based or one-time job ([Reference](https://docs.aws.amazon.com/scheduler/latest/UserGuide/schedule-types.html)), and replace the value string of the `schedule_expression` parameter that follows the syntax below:
+
+* For [rated-based job](https://docs.aws.amazon.com/scheduler/latest/UserGuide/schedule-types.html#rate-based), the syntax is `rate(value unit)`
+* For [cron-based job](https://docs.aws.amazon.com/scheduler/latest/UserGuide/schedule-types.html#cron-based), the syntax is `cron(minutes hours day-of-month month day-of-week year)`
+* For [one-time job](https://docs.aws.amazon.com/scheduler/latest/UserGuide/schedule-types.html#one-time), the syntax is `at(yyyy-mm-ddThh:mm:ss)`
+
+And set the timezone by replacing the value of the `schedule_expression_timezone` parameter with the [TZ identifier](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) like `Asia/Taipei`.
+
+### Step 4: Create Task Definitions
 
 By default, the tasks are stored in the `tasks` List object in `lambda/send_task/index.py`. Such as:
 
@@ -109,7 +122,7 @@ with open("tasks.txt", "r") as file:
     tasks = file.open().splitlines()
 ```
 
-### Step 4: Install Python Lambda Layer (Python dependencies)
+### (Optional) Step 5: Install Python Lambda Layer (Python dependencies)
 
 All Python dependencies must stored under `layer/python` as [Lambda Layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html) then pack and send to AWS Lambda.
 
@@ -121,17 +134,20 @@ pip install --target ./layer/python -r requirements-layer.txt
 
 > [NOTE] Remember to manually add dependencies to `requirements-layer.txt`.
 
-### Step 5: Add Business Logics code
+### Step 6: Add Business Logics code
 
 Insert the code into `lambda/run_task/index.py`.
 
-### Step 6: Change time related parameters of SQS Queue
+### (Optional) Step 6: Change time related parameters of SQS Queue
 
 There are 4 parameters:
 
 * [`visibility_timeout`](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html): How long does a Lambda function process the task?
+  * Default value: `1` minute
 * [`retention_period`](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_SetQueueAttributes.html#API_SetQueueAttributes_RequestSyntax): How long does the task remain in the queue?
-* [`receive_message_wait_time`](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/): How long does the "ReceiveMessage" (Polling) action?takes 
+  * Default value: `15` minutes
+* [`receive_message_wait_time`](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/): How long does the "ReceiveMessage" (Polling) action takes?
+  * Default value: `0` minute (Immediate)
 
 Estimate the settings by the program you goona run, end override them by editing the `stack/sqs_stack.py` file.
 
