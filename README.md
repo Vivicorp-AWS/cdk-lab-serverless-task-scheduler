@@ -114,7 +114,7 @@ Insert the code into [`lambda/run_task/index.py`](lambda/run_task/index.py).
 
 ### (Optional) Step 6: Change time related parameters of SQS Queue
 
-There are 4 parameters:
+There are 3 parameters:
 
 * [`visibility_timeout`](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html): How long does a Lambda function process the task?
   * Default value: `1` minute
