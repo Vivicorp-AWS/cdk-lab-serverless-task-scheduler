@@ -24,3 +24,6 @@ class SQSStack(Stack):
             retention_period=Duration.minutes(15),  # How long does the task remain in the queue
             receive_message_wait_time=Duration.minutes(0),  # How long does the "ReceiveMessage" (Polling) action takes 
         )
+
+        CfnOutput(self, "QueueName", value=self.queue.queue_name,)
+        CfnOutput(self, "QueueArn", value=self.queue.queue_arn,)
