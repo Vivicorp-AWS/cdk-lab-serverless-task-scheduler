@@ -99,6 +99,7 @@ All Python dependencies must stored under [`layer/python/`](layer/python/) as [L
 First add the dependencies to [`requirements-layer.txt`](requirements-layer.txt), then install the dependencies with the command below: 
 
 ```bash
+mkdir -p ./layer/python/
 pip install --target ./layer/python -r requirements-layer.txt
 ```
 
