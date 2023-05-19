@@ -160,8 +160,7 @@ We can use the standard `JSON` library and call `json.dumps()` function to acomp
 ```python
 import json
 
-json.dumps(json)
-# TypeError: Object of type module is not JSON serializable
+json.dumps(json)  # TypeError: Object of type module is not JSON serializable
 ```
 
 Error occurs: module object can not be JSON serialized. Sometimes it's annoying because we can't realize if the object is serializable or not at a glance.
