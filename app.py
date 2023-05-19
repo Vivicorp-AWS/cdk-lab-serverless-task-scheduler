@@ -4,24 +4,39 @@ import os
 import aws_cdk as cdk
 
 from stacks.iam_stack import IAMStack
-from stacks.lambda_stack import LambdaLayerStack
-
+from stacks.lambda_stack import LambdaStack
+from stacks.sqs_stack import SQSStack
+from stacks.scheduler_stack import SchedulerStack
 
 app = cdk.App()
 
-lambda_stack = IAMStack(
-    app, "cdklab-iam",
-    #env=cdk.Environment(account='123456789012', region='us-east-1'),
-    description="CDK Lab IAM Stack",
-    )
+sqs_stack = SQSStack(
+    app, "cdklab-sqs",
+    description="CDK Lab SQS Stack",
+)
 
-role_lambda_sendmessage = lambda_stack.role_lambda_sendmessage
+queue = sqs_stack.queue
 
-lambda_stack = LambdaLayerStack(
+# iam_stack = IAMStack(
+#     app, "cdklab-iam",
+#     queue=queue,
+#     description="CDK Lab IAM Stack",
+#     )
+
+# role_lambda_sendtask = iam_stack.role_lambda_sendtask
+
+lambda_stack = LambdaStack(
     app, "cdklab-lambda",
-    #env=cdk.Environment(account='123456789012', region='us-east-1'),
+    queue=queue,
     description="CDK Lab Lambda Layer Stack",
-    role_lambda_sendmessage=role_lambda_sendmessage,
     )
+
+lambda_sendtask = lambda_stack.lambda_sendtask
+
+scheduler_stack = SchedulerStack(
+    app, "cdklab-scheduler",
+    lambdafn=lambda_sendtask,
+    description="CDK Lab Scheduler Stack",
+)
 
 app.synth()
