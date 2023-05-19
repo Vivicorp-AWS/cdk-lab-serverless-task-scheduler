@@ -73,7 +73,7 @@ And set the timezone by replacing the value of the `schedule_expression_timezone
 
 ### Step 4: Create Task Definitions
 
-By default, the tasks are stored in the `tasks` List object in `lambda/send_task/index.py`. Such as:
+By default, the tasks are stored in the `tasks` List object in [`lambda/send_task/index.py`](lambda/send_task/index.py). Such as:
 
 ```python
 tasks = [
@@ -94,7 +94,7 @@ with open("tasks.txt", "r") as file:
 
 ### (Optional) Step 5: Install Python Lambda Layer (Python dependencies)
 
-All Python dependencies must stored under `layer/python` as [Lambda Layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html) then pack and send to AWS Lambda.
+All Python dependencies must stored under [`layer/python/`](layer/python/) as [Lambda Layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html) then pack and send to AWS Lambda.
 
 First add the dependencies to [`requirements-layer.txt`](requirements-layer.txt), then install the dependencies with the command below: 
 
@@ -106,7 +106,7 @@ pip install --target ./layer/python -r requirements-layer.txt
 
 ### Step 6: Add Business Logic Code
 
-Insert the code into `lambda/run_task/index.py`.
+Insert the code into [`lambda/run_task/index.py`](lambda/run_task/index.py).
 
 ### (Optional) Step 6: Change time related parameters of SQS Queue
 
