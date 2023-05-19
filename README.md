@@ -51,7 +51,7 @@ aws configure
 
 ### Step 2: Set the stacks' prefix
 
-The deployed stack has a prefix, the default value is `cdklab`. Edit the value in [runtime context](https://docs.aws.amazon.com/cdk/v2/guide/context.html) file (`cdk.context.json`):
+The deployed stack has a prefix, the default value is `cdklab`. Edit the value in [runtime context](https://docs.aws.amazon.com/cdk/v2/guide/context.html) file ([`cdk.context.json`](cdk.context.json)):
 
 ```json
 {
@@ -61,7 +61,7 @@ The deployed stack has a prefix, the default value is `cdklab`. Edit the value i
 
 ### Step 3: Reset the scheduler
 
-The default schedule is set at 23:59:59 on 2037-12-31, Refer to `stacks.scheduler_stack.scheduler_lambda`.
+The default schedule is set at 23:59:59 on 2037-12-31, Refer to [`stacks.scheduler_stack.scheduler_lambda`](stacks/scheduler_stack.py).
 
 Choose to set it as an rate-based, cron-based or one-time job ([Reference](https://docs.aws.amazon.com/scheduler/latest/UserGuide/schedule-types.html)), and replace the value string of the `schedule_expression` parameter that follows the syntax below:
 
@@ -96,13 +96,13 @@ with open("tasks.txt", "r") as file:
 
 All Python dependencies must stored under `layer/python` as [Lambda Layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html) then pack and send to AWS Lambda.
 
-First add the dependencies to `requirements-layer.txt`, then install the dependencies with the command below: 
+First add the dependencies to [`requirements-layer.txt`](requirements-layer.txt), then install the dependencies with the command below: 
 
 ```bash
 pip install --target ./layer/python -r requirements-layer.txt
 ```
 
-> [NOTE] Remember to manually add dependencies to `requirements-layer.txt`.
+> [NOTE] Remember to manually add dependencies to [`requirements-layer.txt`](requirements-layer.txt).
 
 ### Step 6: Add Business Logic Code
 
@@ -119,7 +119,7 @@ There are 4 parameters:
 * [`receive_message_wait_time`](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/): How long does the "ReceiveMessage" (Polling) action takes?
   * Default value: `0` minute (Immediate)
 
-Estimate the settings by the program you goona run, end override them by editing the `stack/sqs_stack.py` file.
+Estimate the settings by the program you goona run, end override them by editing the [`stack/sqs_stack.py`](stacks/sqs_stack.py) file.
 
 ### Step 7: Deploy with CDK toolkit (`cdk` command)
 
@@ -148,7 +148,7 @@ CDK will try to create roles and add necessary permission policies by evaluate t
 
 But there are exceptions in this project:
 
-1. If the action is written in Lambda function, CDK won't understand what permission does the function need (Refer to `stacks.lambda_stack.lambda_sendtask`)
+1. If the action is written in Lambda function, CDK won't understand what permission does the function need (Refer to [`stacks.lambda_stack.lambda_sendtask`](stacks/lambda_stack.py))
 2. If we use L1 construct to create the resources, everything in the CloudFormation template should be created by ourselves (Refer to [`stacks.scheduler_stack.scheduler_lambda`](stacks/scheduler_stack.py))
 
 If these situations exists, try to create the Roles and Policies manually first.
