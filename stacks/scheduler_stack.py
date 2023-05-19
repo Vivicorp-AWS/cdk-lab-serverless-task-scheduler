@@ -57,5 +57,5 @@ class SchedulerStack(Stack):
 
         CfnOutput(self, "SchedulerRoleName", value=role_scheduler_lambda.role_name,)
         CfnOutput(self, "SchedulerRoleARN", value=role_scheduler_lambda.role_arn,)
-        CfnOutput(self, "SchedulerName", value=scheduler_lambda.name,)
+        # CfnOutput(self, "SchedulerName", value=scheduler_lambda.name,)  # Causes error for unknown reason
         CfnOutput(self, "SchedulerARN", value=scheduler_lambda.attr_arn,)
