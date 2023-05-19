@@ -32,34 +32,10 @@ class LambdaStack(Stack):
             removal_policy=RemovalPolicy.DESTROY
             )
         
-        # Service role for send-message-lambda-function
-        role_lambda_sendtask = iam.Role(self, "SendTaskLambdaServiceRole",
-            description="Service role for send-task-lambda-function",
-            assumed_by=iam.ServicePrincipal("lambda.amazonaws.com"),
-        )
-
-        # Service role for read-message-lambda-function
-        role_lambda_runtask = iam.Role(self, "RunTaskLambdaServiceRole",
-            description="Service role for run-task-lambda-function",
-            assumed_by=iam.ServicePrincipal("lambda.amazonaws.com"),
-        )
-
-        # Policy for managing CloudWatch Logs
-        policy_manage_logs = iam.Policy(
-            self, "ManageCloudWatchLogsPolicy",
-            statements=[
-                iam.PolicyStatement(
-                    actions=[
-                        "logs:CreateLogGroup",
-                        "logs:CreateLogStream",
-                        "logs:PutLogEvents",
-                    ],
-                    resources=["*"]
-                ),
-            ],
-        )
-
         # Policy for receiving and deleting messages from SQS
+        # [NOTE] The send message action is written in the code by ourselves,
+        # CDK won't know that, so it's necessary to create a policy for it
+        # and attach it to the role manually.
         policy_sendtask = iam.Policy(
             self, "SendtoSQSPolicy",
             statements=[
@@ -72,27 +48,7 @@ class LambdaStack(Stack):
             ],
         )
 
-        # Policy for receiving and deleting messages from SQS
-        policy_runtask = iam.Policy(
-            self, "ReadfromSQSPolicy",
-            statements=[
-                iam.PolicyStatement(
-                    actions=[
-                        "sqs:ReceiveMessage",
-                        "sqs:DeleteMessage",
-                        "sqs:GetQueueAttributes",
-                    ],
-                    resources=[queue.queue_arn]  # [TODO] Inject SQS Queue
-                ),
-            ],
-        )
-
-        role_lambda_sendtask.attach_inline_policy(policy_manage_logs)
-        role_lambda_sendtask.attach_inline_policy(policy_sendtask)
-        role_lambda_runtask.attach_inline_policy(policy_manage_logs)
-        role_lambda_runtask.attach_inline_policy(policy_runtask)
-
-        # Lambda function for sending task to queue
+        # Lambda function for sending task to the queue
         self.lambda_sendtask = _lambda.Function(
             self, "send-task-lambda-function",
             description="Function to send task to queue",
@@ -102,12 +58,12 @@ class LambdaStack(Stack):
             runtime=_lambda.Runtime.PYTHON_3_10,
             layers=[layer],
             log_retention=logs.RetentionDays.ONE_WEEK,
-            role=role_lambda_sendtask,
             timeout=Duration.seconds(15),
             # tracing=_lambda.Tracing.ACTIVE,  # X-Ray Tracing
             )
+        self.lambda_sendtask.role.attach_inline_policy(policy_sendtask)
         
-        # Lambda function for reading task from queue
+        # Lambda function for reading task from the queue
         self.lambda_runtask = _lambda.Function(
             self, "run-task-lambda-function",
             description="Function to read task from queue and execute",
@@ -116,20 +72,19 @@ class LambdaStack(Stack):
             runtime=_lambda.Runtime.PYTHON_3_10,
             layers=[layer],
             log_retention=logs.RetentionDays.ONE_WEEK,
-            role=role_lambda_runtask,
             timeout=Duration.seconds(15),
             # tracing=_lambda.Tracing.ACTIVE,  # X-Ray Tracing
             )
-
+        
         # Add SQS as event source
         event_source_queue = SqsEventSource(queue)
         self.lambda_runtask.add_event_source(event_source_queue)
 
-        CfnOutput(self, "SendTaskLambdaServiceRoleName", value=role_lambda_sendtask.role_name,)
-        CfnOutput(self, "SendTaskLambdaServiceRoleARN", value=role_lambda_sendtask.role_arn,)
-        CfnOutput(self, "RunTaskLambdaServiceRoleName", value=role_lambda_runtask.role_name,)
-        CfnOutput(self, "RunTaskLambdaServiceRoleARN", value=role_lambda_runtask.role_arn,)
-        CfnOutput(self, "SendTaskFunctionARN", value=self.lambda_sendtask.function_arn,)
-        CfnOutput(self, "SendTaskFunctionName", value=self.lambda_sendtask.function_name,)
-        CfnOutput(self, "RunTaskFunctionARN", value=self.lambda_runtask.function_arn,)
-        CfnOutput(self, "RunTaskFunctionName", value=self.lambda_runtask.function_name,)
+        CfnOutput(self, "SendTaskLambdaFunctionARN", value=self.lambda_sendtask.function_arn,)
+        CfnOutput(self, "SendTaskLambdaFunctionName", value=self.lambda_sendtask.function_name,)
+        CfnOutput(self, "SendTaskLambdaFunctionServiceRoleName", value=self.lambda_sendtask.role.role_name,)
+        CfnOutput(self, "SendTaskLambdaFunctionServiceRoleARN", value=self.lambda_sendtask.role.role_arn,)
+        CfnOutput(self, "RunTaskLambdaFunctionARN", value=self.lambda_runtask.function_arn,)
+        CfnOutput(self, "RunTaskLambdaFunctionName", value=self.lambda_runtask.function_name,)
+        CfnOutput(self, "RunTaskLambdaFunctionServiceRoleName", value=self.lambda_runtask.role.role_name,)
+        CfnOutput(self, "RunTaskLambdaFunctionServiceRoleARN", value=self.lambda_runtask.role.role_arn,)
