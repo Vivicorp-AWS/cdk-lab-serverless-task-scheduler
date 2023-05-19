@@ -17,7 +17,7 @@ class SchedulerStack(Stack):
         super().__init__(scope, id, **kwargs)
 
         # Service role for task-scheduler
-        role_scheduler = iam.Role(self, "InvokeLambdaSchedulerServiceRole",
+        role_scheduler_lambda = iam.Role(self, "InvokeLambdaSchedulerServiceRole",
             description="Service role for task-scheduler",
             assumed_by=iam.ServicePrincipal("scheduler.amazonaws.com"),
         )
@@ -38,7 +38,7 @@ class SchedulerStack(Stack):
             ],
         )
 
-        role_scheduler.attach_inline_policy(policy_invoke_lambda)
+        role_scheduler_lambda.attach_inline_policy(policy_invoke_lambda)
 
         # EventBridge Scheduler to invoke send-task-lambda-function
         scheduler_lambda = scheduler.CfnSchedule(
@@ -49,13 +49,13 @@ class SchedulerStack(Stack):
             schedule_expression_timezone="Asia/Taipei",
             target=scheduler.CfnSchedule.TargetProperty(
                 arn=lambdafn.function_arn,
-                role_arn=role_scheduler.role_arn,
+                role_arn=role_scheduler_lambda.role_arn,
                 input=json.dumps({}),
                 retry_policy=None,
             ),
         )
 
-        CfnOutput(self, "SchedulerRoleName", value=role_scheduler.role_name,)
-        CfnOutput(self, "SchedulerRoleARN", value=role_scheduler.role_arn,)
+        CfnOutput(self, "SchedulerRoleName", value=role_scheduler_lambda.role_name,)
+        CfnOutput(self, "SchedulerRoleARN", value=role_scheduler_lambda.role_arn,)
         CfnOutput(self, "SchedulerName", value=scheduler_lambda.name,)
         CfnOutput(self, "SchedulerARN", value=scheduler_lambda.attr_arn,)
