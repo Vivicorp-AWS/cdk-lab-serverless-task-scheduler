@@ -94,7 +94,7 @@ with open("tasks.txt", "r") as file:
 
 ### (Optional) Step 5: Install Python Lambda Layer (Python dependencies)
 
-All Python dependencies must stored under [`layer/python/`](layer/python/) as [Lambda Layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html) then pack and send to AWS Lambda.
+All Python dependencies must stored under `layer/python/` as [Lambda Layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html) then pack and send to AWS Lambda.
 
 First add the dependencies to [`requirements-layer.txt`](requirements-layer.txt), then install the dependencies with the command below: 
 
