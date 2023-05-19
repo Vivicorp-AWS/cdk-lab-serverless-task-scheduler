@@ -4,6 +4,8 @@ I used to schedule some cron tasks and send the results to IM application, such 
 
 What I did before was implementing a gigantic, stable, famous workflow platform like [Apache Airflow](https://airflow.apache.org) and [Prefect](https://www.prefect.io). They are still good choices, but it's time for me to adopt a lighter, event-driven architecture.
 
+![](./diagram-story.jpg)
+
 When talk about AWS, we can use Amazon EventBridge, AWS Lambda, Amazon SQS to build the same architecture to fulfill the same job:
 
 ![](./diagram-services.jpg)
