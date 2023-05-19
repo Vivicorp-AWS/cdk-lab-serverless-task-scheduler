@@ -2,6 +2,7 @@ from aws_cdk import (
     Stack,
     aws_iam as iam,
     aws_lambda as _lambda,
+    aws_logs as logs,
     RemovalPolicy,
     Duration,
     CfnOutput,
@@ -9,7 +10,6 @@ from aws_cdk import (
 from aws_cdk.aws_lambda_event_sources import SqsEventSource
 from constructs import Construct
 import os
-
 
 class LambdaStack(Stack):
     def __init__(
@@ -101,8 +101,10 @@ class LambdaStack(Stack):
             handler="index.handler",
             runtime=_lambda.Runtime.PYTHON_3_10,
             layers=[layer],
+            log_retention=logs.RetentionDays.ONE_WEEK,
             role=role_lambda_sendtask,
             timeout=Duration.seconds(15),
+            # tracing=_lambda.Tracing.ACTIVE,  # X-Ray Tracing
             )
         
         # Lambda function for reading task from queue
@@ -113,8 +115,10 @@ class LambdaStack(Stack):
             handler="index.handler",
             runtime=_lambda.Runtime.PYTHON_3_10,
             layers=[layer],
+            log_retention=logs.RetentionDays.ONE_WEEK,
             role=role_lambda_runtask,
             timeout=Duration.seconds(15),
+            # tracing=_lambda.Tracing.ACTIVE,  # X-Ray Tracing
             )
 
         # Add SQS as event source
