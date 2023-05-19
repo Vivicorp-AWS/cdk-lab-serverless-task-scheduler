@@ -43,7 +43,7 @@ class LambdaStack(Stack):
                     actions=[
                         "sqs:SendMessage",
                     ],
-                    resources=[queue.queue_arn]  # [TODO] Inject SQS Queue
+                    resources=[queue.queue_arn]
                 ),
             ],
         )
