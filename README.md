@@ -17,7 +17,7 @@ Hope this will cost less money and effort. Let's get hands dirty 🛠️ and hav
   - [Step 3: Reset the scheduler](#step-3-reset-the-scheduler)
   - [Step 4: Create Task Definitions](#step-4-create-task-definitions)
   - [(Optional) Step 5: Install Python Lambda Layer (Python dependencies)](#optional-step-5-install-python-lambda-layer-python-dependencies)
-  - [Step 6: Add Business Logics code](#step-6-add-business-logics-code)
+  - [Step 6: Add Business Logic Code](#step-6-add-business-logic-code)
   - [(Optional) Step 6: Change time related parameters of SQS Queue](#optional-step-6-change-time-related-parameters-of-sqs-queue)
   - [Step 7: Deploy with CDK toolkit (`cdk` command)](#step-7-deploy-with-cdk-toolkit-cdk-command)
   - [(Optional) Step 8: Clean all resources](#optional-step-8-clean-all-resources)
@@ -104,7 +104,7 @@ pip install --target ./layer/python -r requirements-layer.txt
 
 > [NOTE] Remember to manually add dependencies to `requirements-layer.txt`.
 
-### Step 6: Add Business Logics code
+### Step 6: Add Business Logic Code
 
 Insert the code into `lambda/run_task/index.py`.
 
