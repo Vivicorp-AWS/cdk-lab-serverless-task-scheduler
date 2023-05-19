@@ -166,7 +166,7 @@ json.dumps(json)  # TypeError: Object of type module is not JSON serializable
 
 Error occurs: module object can not be JSON serialized. Sometimes it's annoying because we can't realize if the object is serializable or not at a glance.
 
-[JSONPickle](https://github.com/jsonpickle/jsonpickle) is an amazing project for JSON serialization. The reason to use JSONPickle better than calling `json.dumps` is based on the project itself's description:
+[JSONPickle](https://github.com/jsonpickle/jsonpickle) is an amazing project for making JSON serialization. The reason to use JSONPickle better than calling `json.dumps` is based on the project itself's description:
 
 > "It can take almost any Python object and turn the object into JSON"
 
