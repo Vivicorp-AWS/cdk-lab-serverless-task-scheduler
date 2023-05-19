@@ -14,7 +14,7 @@ class SQSStack(Stack):
             **kwargs,) -> None:
         super().__init__(scope, id, **kwargs)
 
-        # [TODO] Read time related parameters from context
+        # Create a SQS Queue to store the tasks
         self.queue = sqs.Queue(
             self, "task-queue",
             fifo=True,
