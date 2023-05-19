@@ -3,7 +3,6 @@ import os
 
 import aws_cdk as cdk
 
-from stacks.iam_stack import IAMStack
 from stacks.lambda_stack import LambdaStack
 from stacks.sqs_stack import SQSStack
 from stacks.scheduler_stack import SchedulerStack
@@ -16,14 +15,6 @@ sqs_stack = SQSStack(
 )
 
 queue = sqs_stack.queue
-
-# iam_stack = IAMStack(
-#     app, "cdklab-iam",
-#     queue=queue,
-#     description="CDK Lab IAM Stack",
-#     )
-
-# role_lambda_sendtask = iam_stack.role_lambda_sendtask
 
 lambda_stack = LambdaStack(
     app, "cdklab-lambda",
