@@ -58,7 +58,7 @@ class LambdaStack(Stack):
             runtime=_lambda.Runtime.PYTHON_3_10,
             layers=[layer],
             log_retention=logs.RetentionDays.ONE_WEEK,
-            timeout=Duration.seconds(15),
+            timeout=Duration.seconds(30),
             # tracing=_lambda.Tracing.ACTIVE,  # X-Ray Tracing
             )
         self.lambda_sendtask.role.attach_inline_policy(policy_sendtask)
@@ -72,7 +72,7 @@ class LambdaStack(Stack):
             runtime=_lambda.Runtime.PYTHON_3_10,
             layers=[layer],
             log_retention=logs.RetentionDays.ONE_WEEK,
-            timeout=Duration.seconds(15),
+            timeout=Duration.minutes(1),
             # tracing=_lambda.Tracing.ACTIVE,  # X-Ray Tracing
             )
         
