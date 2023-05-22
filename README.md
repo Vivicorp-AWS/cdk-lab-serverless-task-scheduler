@@ -80,8 +80,8 @@ By default, the tasks are stored in the `tasks` List object in [`lambda/send_tas
 
 ```python
 tasks = [
-  "Hello from Lambda #1!",
-  "Hello from Lambda #2!",
+    "Hello from Lambda #1!",
+    "Hello from Lambda #2!",
 ]
 ```
 
