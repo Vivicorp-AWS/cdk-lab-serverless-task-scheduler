@@ -2,13 +2,10 @@
 # SQS sample code ref: https://docs.aws.amazon.com/lambda/latest/dg/with-sqs-create-package.html#with-sqs-example-deployment-pkg-python
 import logging
 import os
-import boto3  # type: ignore
 import jsonpickle  # type: ignore
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
-
-sqs = boto3.client('sqs')
 
 def handler(event, context):    
     logger.info('## ENVIRONMENT VARIABLES\r' + jsonpickle.encode(dict(**os.environ)))
