@@ -48,6 +48,7 @@ class SchedulerStack(Stack):
         scheduler_lambda = scheduler.CfnSchedule(
             self, "task-scheduler",
             description="Scheduler to invoke send-task-lambda-function",
+            # group_name=None,  # [TODO] Has a bug now, add this feature later
             flexible_time_window=scheduler.CfnSchedule.FlexibleTimeWindowProperty(mode="OFF",),
             schedule_expression="at(2037-12-31T23:59:59)",
             schedule_expression_timezone="Asia/Taipei",
