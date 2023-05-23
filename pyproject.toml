@@ -6,11 +6,11 @@ authors = ["Violet Vivirand <purpleslovemail@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-aws-cdk-lib = "2.76.0"
+aws-cdk-lib = "^2.76.0"
 constructs = ">=10.0.0,<11.0.0"
 
 [tool.poetry.dev-dependencies]
-pytest = "6.2.5"
+pytest = "^6.2.5"
 ipython = "^8.13.2"
 requests = "^2.30.0"
 
