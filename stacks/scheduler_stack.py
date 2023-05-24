@@ -56,7 +56,10 @@ class SchedulerStack(Stack):
                 arn=lambdafn.function_arn,
                 role_arn=role_scheduler_lambda.role_arn,
                 input=json.dumps({}),
-                retry_policy=None,
+                retry_policy=scheduler.CfnSchedule.RetryPolicyProperty(
+                    maximum_event_age_in_seconds=3600,  # 1 Hour
+                    maximum_retry_attempts=3,
+                ),
             ),
         )
 
