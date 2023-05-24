@@ -77,7 +77,7 @@ class LambdaStack(Stack):
             )
         
         # Add SQS as event source
-        event_source_queue = SqsEventSource(queue)
+        event_source_queue = SqsEventSource(queue, batch_size=1,)
         self.lambda_runtask.add_event_source(event_source_queue)
 
         CfnOutput(self, "SendTaskLambdaFunctionARN", value=self.lambda_sendtask.function_arn,)
