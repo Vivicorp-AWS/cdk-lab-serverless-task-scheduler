@@ -53,6 +53,7 @@ class LambdaStack(Stack):
             self, "send-task-lambda-function",
             description="Function to send task to queue",
             code=_lambda.Code.from_asset(os.path.join(os.curdir, "lambda", "send_task")),
+            architecture=_lambda.Architecture.X86_64,
             environment={"QUEUE_URL": queue.queue_url},
             handler="index.handler",
             runtime=_lambda.Runtime.PYTHON_3_10,
@@ -67,6 +68,7 @@ class LambdaStack(Stack):
         self.lambda_runtask = _lambda.Function(
             self, "run-task-lambda-function",
             description="Function to read task from queue and execute",
+            architecture=_lambda.Architecture.X86_64,
             code=_lambda.Code.from_asset(os.path.join(os.curdir, "lambda", "run_task")),
             handler="index.handler",
             runtime=_lambda.Runtime.PYTHON_3_10,
