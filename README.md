@@ -13,6 +13,7 @@ When talk about AWS, we can use Amazon EventBridge, AWS Lambda, Amazon SQS to bu
 Hope this will cost less money and effort. Let's get hands dirty 🛠️ and have the party started! 🎉
 
 - [Components](#components)
+- [File Sturcture](#file-sturcture)
 - [Deployment](#deployment)
   - [Step 1: Configure AWS Credentials](#step-1-configure-aws-credentials)
   - [Step 2: Set the stacks' prefix](#step-2-set-the-stacks-prefix)
@@ -42,6 +43,41 @@ All we need are:
 * **Queue**: Store the tasks
 * **Lambda function (Run Task)**: Receive messages from queue with a Role attached
   * **Service Role**: Has permission to receive message from queue, and manage CloudWatch logs
+
+## File Sturcture
+
+```
+.
+├── README.md
+├── app.py                  # Entrypoint
+├── cdk.context.json        # Set this stack's prefix
+├── cdk.json
+├── diagram-detailed.jpg
+├── diagram-services.jpg
+├── diagram-story.jpg
+├── lambda
+│   ├── run_task
+│   │   ├── __init__.py
+│   │   └── index.py        # Task processing logic
+│   └── send_task
+│       ├── __init__.py
+│       └── index.py        # Task sending logic
+├── layer
+│   └── python              # Lambda's Python dependencies
+├── poetry.lock
+├── pyproject.toml
+├── requirements-layer.txt  # Lambda's Python dependency list
+├── requirements.txt
+├── stacks
+│   ├── __init__.py
+│   ├── __pycache__
+│   ├── lambda_stack.py     # Lambdas' configurations
+│   ├── scheduler_stack.py  # EventBridge Scheduler's configurations
+│   └── sqs_stack.py        # SQS Queue's configurations
+└── tests                   # Test (Incomplete)
+    ├── __init__.py
+    └── unit
+```
 
 ## Deployment
 
