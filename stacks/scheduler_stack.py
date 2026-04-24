@@ -1,5 +1,8 @@
 from aws_cdk import (
     Stack,
+    aws_events as events,
+    Duration,
+    aws_events_targets as events_targets,
     aws_iam as iam,
     aws_scheduler as scheduler,
     CfnOutput,
@@ -16,6 +19,15 @@ class SchedulerStack(Stack):
             **kwargs,) -> None:
         super().__init__(scope, id, **kwargs)
 
+        # [NEW]
+        rule = events.Rule(self, "Rule",
+            schedule=events.Schedule.cron(hour="08", minute="45",)
+        )
+
+        rule.add_target(events_targets.LambdaFunction(lambdafn))
+        # ===
+
+        # [OLD]
         # Service role for task-scheduler
         # [NOTE] At this time (May 2023, version 2.79.1),
         # CDK doesn't have a L2 EvventBridge Scheduler construct now
